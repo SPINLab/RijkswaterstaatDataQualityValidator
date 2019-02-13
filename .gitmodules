@@ -1,0 +1,3 @@
+[submodule "pgkgc"]
+	path = pgkgc
+	url = https://gitlab.com/wxwilcke/pgkgc
