@@ -49,5 +49,6 @@ if __name__ == "__main__":
         exit(0)
 
     # store results
-    print("storing results... ")
-    h.serialize("./constraint_violations.nt", format="nt")
+    if len(h) > 0:
+        print("storing results... ")
+        h.serialize("./constraint_violations.nt", format="nt")

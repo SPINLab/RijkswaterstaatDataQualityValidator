@@ -15,7 +15,7 @@ def validate(g, generation_forest, max_depth, min_domain_probability):
 
     t0 = process_time()
     i = 0
-    for depth in range(max_depth):
+    for depth in range(max_depth+1):
         for t in generation_forest.types():
             # root clauses have all members of type t as domain 
             domain = set(g.subjects(RDF.type, t)) if depth <= 0 else set()
@@ -26,7 +26,8 @@ def validate(g, generation_forest, max_depth, min_domain_probability):
                     # if this one fails the threshold than his derivatives will too
                     continue
 
-                if depth <= 0 and clause.parent._satisfy_body is None:
+                if depth <= 0 and (clause.parent._satisfy_body is None
+                                   or len(clause.parent._satisfy_body) <= 0):
                     # set starting point if previously cleared
                     clause.parent._satisfy_body = domain
 
@@ -54,7 +55,7 @@ def validate_recursion(clause, min_domain_probability, cache):
         # if this one fails the threshold than his derivatives will too
         return clause_violations
 
-    if clause._satisfy_body is None:
+    if clause._satisfy_body is None or len(clause._satisfy_body) <= 0:
         # compute domain from that of parent to reduce search space
         _, domain = compute_domain(cache.predicate_map,
                                    cache.object_type_map,

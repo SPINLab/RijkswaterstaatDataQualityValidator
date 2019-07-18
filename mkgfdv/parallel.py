@@ -20,7 +20,7 @@ def validate_mp(nproc, g, generation_forest, max_depth, min_domain_probability):
         types = generation_forest.types()
 
         chunksize = ceil(len(types)/nproc)
-        for depth in range(max_depth):
+        for depth in range(max_depth+1):
             for clause_violations in pool.imap_unordered(validate_tree,
                                                         ((t,
                                                           g,
@@ -59,7 +59,8 @@ def validate_tree(inputs):
             # if this one fails the threshold than his derivatives will too
             continue
 
-        if depth <= 0 and clause.parent._satisfy_body is None:
+        if depth <= 0 and (clause.parent._satisfy_body is None
+                           or len(clause.parent._satisfy_body) <= 0):
             # set starting point if previously cleared
             clause.parent._satisfy_body = domain
 
