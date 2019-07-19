@@ -11,8 +11,10 @@ setup(name='mkgfdv',
       author='WX Wilcke',
       author_email='w.x.wilcke@vu.nl',
       license='GPL3',
+      url='https://gitlab.com/wxwilcke/mkgfdv',
       install_requires=[
           "rdflib == 4.2.1"
       ],
-      packages=['mkgfdv', 'mkgfdv.mkgfd'],
+      dependency_links=['git+https://gitlab.com/wxwilcke/mkgfd.git@master#egg=mkgfd'],
+      packages=['mkgfdv'],
       include_package_data=True)
